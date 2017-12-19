@@ -37,6 +37,10 @@ var Cleanup = cli.Command{
 			Name:  "keep, k",
 			Usage: "~7d/1d will keep a backup every 1d for all backups 7d old or older",
 		},
+		cli.BoolFlag{
+			Name:  "insecure",
+			Usage: "Disable SSL when connecting to the Minio server",
+		},
 	},
 	Action: func(c *cli.Context) error {
 		logger := log.
@@ -55,7 +59,7 @@ var Cleanup = cli.Command{
 			specs = append(specs, s)
 		}
 
-		client, err := minio.New(c.String("server"), c.String("access-key"), c.String("secret-key"), true)
+		client, err := minio.New(c.String("server"), c.String("access-key"), c.String("secret-key"), !c.Bool("insecure"))
 		if err != nil {
 			logger.WithError(err).Error("failed to create client")
 			return err
