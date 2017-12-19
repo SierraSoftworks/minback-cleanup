@@ -92,47 +92,70 @@ func TestSampleSpec(t *testing.T) {
 			})
 		})
 
-		Convey("MarshalString", func() {
-			s := SampleSpec{
-				Before:   24 * time.Hour,
-				Interval: 5 * 24 * time.Hour,
+		Convey("Serialization", func() {
+			examples := []struct {
+				Spec  string
+				Value SampleSpec
+			}{
+				{"@1d/5d", SampleSpec{Before: 24 * time.Hour, Interval: 5 * 24 * time.Hour}},
+				{"@1d/1w", SampleSpec{Before: 24 * time.Hour, Interval: 7 * 24 * time.Hour}},
+				{"@1d/1w~1d", SampleSpec{Before: 24 * time.Hour, Interval: 7 * 24 * time.Hour, Round: 24 * time.Hour}},
+				{"/1d", SampleSpec{Interval: 24 * time.Hour}},
 			}
 
-			str, err := s.MarshalString()
-			So(err, ShouldBeNil)
-			So(str, ShouldEqual, "~1d/5d")
-		})
+			Convey("MarshalString", func() {
+				for _, example := range examples {
+					Convey(example.Spec, func() {
+						str, err := example.Value.MarshalString()
+						So(err, ShouldBeNil)
+						So(str, ShouldEqual, example.Spec)
+					})
+				}
+			})
 
-		Convey("UnmarshalString", func() {
-			s := SampleSpec{}
+			Convey("UnmarshalString", func() {
+				for _, example := range examples {
+					Convey(example.Spec, func() {
+						s := SampleSpec{}
+						So(s.UnmarshalString(example.Spec), ShouldBeNil)
+						So(s, ShouldResemble, example.Value)
+					})
+				}
+			})
 
-			So(s.UnmarshalString("~1d/7d"), ShouldBeNil)
-			So(s.Before, ShouldEqual, 24*time.Hour)
-			So(s.Interval, ShouldEqual, 7*24*time.Hour)
-		})
+			Convey("MarshalJSON", func() {
+				s := SampleSpec{
+					Before:   24 * time.Hour,
+					Interval: 7 * 24 * time.Hour,
+				}
 
-		Convey("MarshalJSON", func() {
-			s := SampleSpec{
-				Before:   24 * time.Hour,
-				Interval: 7 * 24 * time.Hour,
-			}
+				b, err := s.MarshalJSON()
+				So(err, ShouldBeNil)
+				So(string(b), ShouldEqual, `"@1d/1w"`)
+			})
 
-			b, err := s.MarshalJSON()
-			So(err, ShouldBeNil)
-			So(string(b), ShouldEqual, `"~1d/1w"`)
-		})
+			Convey("UnmarshalJSON", func() {
+				s := SampleSpec{}
 
-		Convey("UnmarshalJSON", func() {
-			s := SampleSpec{}
+				So(s.UnmarshalJSON([]byte(`"@1d/7d"`)), ShouldBeNil)
+				So(s.Before, ShouldEqual, 24*time.Hour)
+				So(s.Interval, ShouldEqual, 7*24*time.Hour)
+			})
 
-			So(s.UnmarshalJSON([]byte(`"~1d/7d"`)), ShouldBeNil)
-			So(s.Before, ShouldEqual, 24*time.Hour)
-			So(s.Interval, ShouldEqual, 7*24*time.Hour)
 		})
 
 		Convey("WithinWindow", func() {
-			Convey("~1h/5m", func() {
-				s, err := NewSampleSpec("~1h/5m")
+			Convey("5m~1m", func() {
+				s, err := NewSampleSpec("/5m~1m")
+				So(err, ShouldBeNil)
+				So(s, ShouldNotBeNil)
+
+				So(s.WithinWindow(time.Now().Round(5*time.Minute).Add(-time.Minute)), ShouldBeTrue)
+				So(s.WithinWindow(time.Now().Round(5*time.Minute).Add(-5*time.Second)), ShouldBeTrue)
+			})
+
+			Convey("@1h/5m", func() {
+				s, err := NewSampleSpec("@1h/5m")
 				So(err, ShouldBeNil)
 				So(s, ShouldNotBeNil)
 
@@ -141,8 +164,8 @@ func TestSampleSpec(t *testing.T) {
 				So(s.WithinWindow(time.Now().Add(-2*time.Hour)), ShouldBeTrue)
 			})
 
-			Convey("~8h/15m", func() {
-				s, err := NewSampleSpec("~8h/15m")
+			Convey("@8h/15m", func() {
+				s, err := NewSampleSpec("@8h/15m")
 				So(err, ShouldBeNil)
 				So(s, ShouldNotBeNil)
 
@@ -153,8 +176,17 @@ func TestSampleSpec(t *testing.T) {
 		})
 
 		Convey("Matches", func() {
-			Convey("~1h/5m", func() {
-				s, err := NewSampleSpec("~1h/5m")
+			Convey("5m~1m", func() {
+				s, err := NewSampleSpec("/5m~1m")
+				So(err, ShouldBeNil)
+				So(s, ShouldNotBeNil)
+
+				So(s.Matches(time.Now().Round(5*time.Minute).Add(-time.Minute)), ShouldBeFalse)
+				So(s.Matches(time.Now().Round(5*time.Minute).Add(5*time.Second)), ShouldBeTrue)
+			})
+
+			Convey("@1h/5m", func() {
+				s, err := NewSampleSpec("@1h/5m")
 				So(err, ShouldBeNil)
 				So(s, ShouldNotBeNil)
 
@@ -164,8 +196,8 @@ func TestSampleSpec(t *testing.T) {
 				So(s.Matches(time.Now().Add(-2*time.Hour).Round(5*time.Minute).Add(time.Minute)), ShouldBeFalse)
 			})
 
-			Convey("~8h/15m", func() {
-				s, err := NewSampleSpec("~8h/15m")
+			Convey("@8h/15m", func() {
+				s, err := NewSampleSpec("@8h/15m")
 				So(err, ShouldBeNil)
 				So(s, ShouldNotBeNil)
 

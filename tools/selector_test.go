@@ -22,9 +22,9 @@ func TestSelector(t *testing.T) {
 	Convey("Selector", t, func() {
 		Convey("Matches", func(c C) {
 			specs := testBuildSpecs(c, []string{
-				"~2d/7d",
-				"~14d/30d",
-				"~30d/365d",
+				"@2d/7d",
+				"@14d/30d",
+				"@30d/365d",
 			})
 
 			So(Matches(time.Now().Round(24*time.Hour), specs), ShouldBeTrue)

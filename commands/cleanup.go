@@ -36,7 +36,7 @@ var Cleanup = cli.Command{
 		},
 		cli.StringSliceFlag{
 			Name:  "keep, k",
-			Usage: "~7d/1d will keep a backup every 1d for all backups 7d old or older",
+			Usage: "@7d/1d will keep a backup every 1d for all backups 7d old or older",
 		},
 	},
 	Action: func(c *cli.Context) error {
