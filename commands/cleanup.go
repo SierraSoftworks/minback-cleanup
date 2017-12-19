@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/SierraSoftworks/minback-cleanup/tools"
 	log "github.com/Sirupsen/logrus"
@@ -37,10 +38,6 @@ var Cleanup = cli.Command{
 			Name:  "keep, k",
 			Usage: "~7d/1d will keep a backup every 1d for all backups 7d old or older",
 		},
-		cli.BoolFlag{
-			Name:  "insecure",
-			Usage: "Disable SSL when connecting to the Minio server",
-		},
 	},
 	Action: func(c *cli.Context) error {
 		logger := log.
@@ -59,7 +56,13 @@ var Cleanup = cli.Command{
 			specs = append(specs, s)
 		}
 
-		client, err := minio.New(c.String("server"), c.String("access-key"), c.String("secret-key"), !c.Bool("insecure"))
+		server, err := url.Parse(c.String("server"))
+		if err != nil {
+			logger.WithError(err).Error("failed to parse server URL")
+			return err
+		}
+
+		client, err := minio.New(server.Host, c.String("access-key"), c.String("secret-key"), server.Scheme == "http")
 		if err != nil {
 			logger.WithError(err).Error("failed to create client")
 			return err

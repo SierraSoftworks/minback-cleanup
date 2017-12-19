@@ -28,7 +28,7 @@ docker run --rm --env-file backup.env minback/cleanup cleanup --db my_db --keep 
 
 #### `backup.env`
 ```
-MINIO_SERVER=play.minio.io
+MINIO_SERVER=https://play.minio.io
 MINIO_ACCESS_KEY=minio
 MINIO_SECRET_KEY=miniosecret
 MINIO_BUCKET=backups
@@ -81,7 +81,7 @@ OPTIONS:
 ## Configuration
 You can configure command line options using environment variables if you wish.
 
-#### `MINIO_SERVER=play.minio.io`
+#### `MINIO_SERVER=https://play.minio.io`
 The Minio server you wish to send backups to.
 
 #### `MINIO_ACCESS_KEY=minio`
