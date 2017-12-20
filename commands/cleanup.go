@@ -62,7 +62,7 @@ var Cleanup = cli.Command{
 			return err
 		}
 
-		client, err := minio.New(server.Host, c.String("access-key"), c.String("secret-key"), server.Scheme == "http")
+		client, err := minio.New(server.Host, c.String("access-key"), c.String("secret-key"), server.Scheme != "http")
 		if err != nil {
 			logger.WithError(err).Error("failed to create client")
 			return err
