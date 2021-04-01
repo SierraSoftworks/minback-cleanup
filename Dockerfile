@@ -19,7 +19,7 @@ RUN go build -o bin/minback-cleanup -a -installsuffix cgo -ldflags "-s -X main.v
 FROM alpine:latest
 LABEL maintainer="Benjamin Pannell <admin@sierrasoftworks.com>"
 
-RUN apk add --update tini
+RUN apk add --update tini ca-certificates
 ENTRYPOINT ["/sbin/tini", "--"]
 
 COPY --from=0 /go/src/github.com/SierraSoftworks/minback-cleanup/bin/minback-cleanup /bin/minback-cleanup
