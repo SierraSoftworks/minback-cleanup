@@ -27,9 +27,9 @@ func TestSelector(t *testing.T) {
 				"@30d/365d",
 			})
 
-			So(Matches(time.Now().Round(24*time.Hour), specs), ShouldBeTrue)
-			So(Matches(time.Now().Round(7*24*time.Hour).Add(-24*time.Hour), specs), ShouldBeFalse)
-			So(Matches(time.Now().Round(7*24*time.Hour).Add(-7*24*time.Hour), specs), ShouldBeTrue)
+			So(Matches(time.Now().UTC().Truncate(24*time.Hour), specs), ShouldBeTrue)
+			So(Matches(time.Now().UTC().Truncate(7*24*time.Hour).Add(-24*time.Hour), specs), ShouldBeFalse)
+			So(Matches(time.Now().UTC().Truncate(7*24*time.Hour).Add(-7*24*time.Hour), specs), ShouldBeTrue)
 		})
 	})
 }
