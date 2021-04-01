@@ -5,7 +5,7 @@ import (
 	"net/url"
 
 	"github.com/SierraSoftworks/minback-cleanup/tools"
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	minio "github.com/minio/minio-go"
 	"github.com/urfave/cli"
 )
