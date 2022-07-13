@@ -1,5 +1,5 @@
 # Use a mutli-stage build pipeline to generate the executable
-FROM golang:1.18.3
+FROM golang:1.18.4
 
 ARG VERSION="development"
 
