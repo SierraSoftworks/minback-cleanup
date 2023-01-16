@@ -32,11 +32,8 @@ func (s *SampleSpec) WithinWindow(t time.Time) bool {
 	}
 
 	absBefore := time.Now().Add(-s.Before)
-	if t.After(absBefore) {
-		return false
-	}
 
-	return true
+	return !t.After(absBefore)
 }
 
 // Matches determines whether a given time object
