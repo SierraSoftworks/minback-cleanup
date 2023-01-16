@@ -20,7 +20,6 @@ FROM alpine:latest
 LABEL maintainer="Benjamin Pannell <admin@sierrasoftworks.com>"
 
 RUN apk add --update tini ca-certificates
-ENTRYPOINT ["/sbin/tini", "--"]
 
 COPY --from=0 /go/src/github.com/SierraSoftworks/minback-cleanup/bin/minback-cleanup /bin/minback-cleanup
 
@@ -33,5 +32,5 @@ ENV MINIO_BUCKET="backups"
 ENV MINIO_ACCESS_KEY=""
 ENV MINIO_SECRET_KEY=""
 
-ENTRYPOINT ["/bin/minback-cleanup"]
+ENTRYPOINT ["/sbin/tini", "--", "/bin/minback-cleanup"]
 CMD ["cleanup"]
