@@ -10,7 +10,7 @@ require (
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18
 	github.com/sirupsen/logrus v1.9.0
 	github.com/smartystreets/goconvey v1.7.2
-	github.com/urfave/cli v1.22.11
+	github.com/urfave/cli v1.22.12
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
 	golang.org/x/net v0.0.0-20210331212208-0fccb6fa2b5c // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
