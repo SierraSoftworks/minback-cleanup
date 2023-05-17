@@ -10,6 +10,6 @@ require (
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18
 	github.com/sirupsen/logrus v1.9.1
 	github.com/smartystreets/goconvey v1.8.0
-	github.com/urfave/cli v1.22.12
+	github.com/urfave/cli v1.22.13
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
