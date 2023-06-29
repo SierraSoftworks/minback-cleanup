@@ -9,7 +9,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18
 	github.com/sirupsen/logrus v1.9.3
-	github.com/smartystreets/goconvey v1.8.0
+	github.com/smartystreets/goconvey v1.8.1
 	github.com/urfave/cli v1.22.14
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
