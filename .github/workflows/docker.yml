@@ -13,7 +13,7 @@ jobs:
     if: github.event_name == 'pull_request'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Build Dockerfile
         run: docker build . --file Dockerfile
@@ -24,7 +24,7 @@ jobs:
     if: github.event_name == 'push' && github.actor != 'dependabot[bot]'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Build image
         run: docker build . --file Dockerfile --tag image
