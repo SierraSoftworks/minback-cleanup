@@ -198,7 +198,7 @@ func parseLongDuration(s string) (time.Duration, error) {
 		return time.Duration(0), nil
 	}
 	if s == "" {
-		return time.Duration(0), fmt.Errorf("time: invalid duration " + orig)
+		return time.Duration(0), fmt.Errorf("time: invalid duration %s", orig)
 	}
 	for s != "" {
 		n := ""
@@ -213,7 +213,7 @@ func parseLongDuration(s string) (time.Duration, error) {
 
 		v, err := strconv.ParseInt(n, 10, 32)
 		if err != nil {
-			return time.Duration(0), fmt.Errorf("time: invalid duration " + orig)
+			return time.Duration(0), fmt.Errorf("time: invalid duration %s", orig)
 		}
 
 		matched := false
@@ -226,7 +226,7 @@ func parseLongDuration(s string) (time.Duration, error) {
 		}
 
 		if !matched {
-			return time.Duration(0), fmt.Errorf("time: invalid duration " + orig)
+			return time.Duration(0), fmt.Errorf("time: invalid duration %s", orig)
 		}
 
 		s = s[1:]
