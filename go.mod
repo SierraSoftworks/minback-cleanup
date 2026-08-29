@@ -1,6 +1,6 @@
 module github.com/SierraSoftworks/minback-cleanup
 
-go 1.23
+go 1.25.0
 
 require (
 	github.com/araddon/dateparse v0.0.0-20210207001429-0eec95c9db7e
@@ -19,9 +19,9 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/smarty/assertions v1.15.0 // indirect
-	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
-	golang.org/x/net v0.8.0 // indirect
-	golang.org/x/sys v0.13.0 // indirect
-	golang.org/x/text v0.8.0 // indirect
+	golang.org/x/crypto v0.52.0 // indirect
+	golang.org/x/net v0.54.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
+	golang.org/x/text v0.37.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
