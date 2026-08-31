@@ -6,7 +6,7 @@ require (
 	github.com/araddon/dateparse v0.0.0-20210207001429-0eec95c9db7e
 	github.com/minio/minio-go v6.0.14+incompatible
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18
-	github.com/sirupsen/logrus v1.10.1
+	github.com/sirupsen/logrus v1.10.2
 	github.com/smartystreets/goconvey v1.8.1
 	github.com/urfave/cli v1.22.17
 )
